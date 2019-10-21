@@ -1,0 +1,17 @@
+#Sets the Base Image for subsequent instructions.
+FROM openjdk:8-jdk-alpine
+
+RUN addgroup -g 1001 -S appuser && adduser -u 1001 -S appuser -G appuser
+
+USER appuser
+
+LABEL Author=RihamFayez
+#creates a mount point for externally mounted volumes or other containers.
+VOLUME /tmp
+#copies new files or directories to container. By default this copies as root regardless of the USER/WORKDIR
+COPY target/demo-0.0.1-SNAPSHOT.jar app.jar
+
+#configures a container that will run as an executable
+ENTRYPOINT ["java","-jar","/app.jar"]
+
+EXPOSE 8080
